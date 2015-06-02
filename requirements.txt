@@ -1,2 +1,5 @@
 # bitcoin rpc client
 python-bitcoinlib==0.2.1
+
+# web framework
+flask==0.10.1
