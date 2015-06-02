@@ -11,7 +11,7 @@ import types
 # For using python-bitcoinlib for details about the Bitcoin Core RPC protocol.
 import inspect
 
-# For some even more devious trickery involving partilaly-pre-specified
+# For some even more devious trickery involving partially-pre-specified
 # function calls.
 import functools
 
