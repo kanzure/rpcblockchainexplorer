@@ -55,6 +55,7 @@ ALLOWED_COMMANDS = [
     "getnettotals",
     "getnetworkinfo",
     "getpeerinfo",
+    "getinfo",
 
     # transactions
     "getrawtransaction",
@@ -71,6 +72,7 @@ CONVERSION_TABLE = {
     # convert to bytes
     "block_hash": lx,
     "txid": lx,
+    "verbose": bool,
 }
 
 def converter(name, value):
@@ -138,21 +140,29 @@ def create_api_endpoints(commands=ALLOWED_COMMANDS):
                 # default as defined in python-bitcoinlib.
                 for (argument_name, default_value) in keyword_arguments.items():
                     value = request.args.get(argument_name, default_value)
-                    possibly_converted_value = converter(argument_name, value)
-                    params[argument_name] = possibly_converted_value
+                    params[argument_name] = value
 
                 # Get a reference to the command, if any.
-                if command in Proxy.__dict__.keys():
+                # Exclude "getblock" so that the json result is shown instead
+                # of the repr of CBlock.
+                if command in Proxy.__dict__.keys() and command != "getblock":
                     callable_function = getattr(g.bitcoin_rpc_client, command)
                     rpc_function = functools.partial(callable_function)
-                else:
-                    callable_function = g.bitcoin_rpc_client._call
-                    _self = g.bitcoin_rpc_client
-                    rpc_function = functools.partial(callable_function, command)
 
-                # Call the RPC service command and pass in all of the given
-                # parameters.
-                results = rpc_function(**params)
+                    params2 = {}
+                    for (argument_name, default_value) in keyword_arguments.items():
+                        value = request.args.get(argument_name, default_value)
+                        possibly_converted_value = converter(argument_name, value)
+                        params[argument_name] = possibly_converted_value
+
+                    # Call the RPC service command and pass in all of the given
+                    # parameters.
+                    results = rpc_function(**params)
+                else:
+                    #_self = g.bitcoin_rpc_client
+                    callable_function = g.bitcoin_rpc_client._call
+                    rpc_function = functools.partial(callable_function, command)
+                    results = rpc_function(*(list(params.values()) + [True]))
 
                 # That's all, folks.
                 return repr(results)
