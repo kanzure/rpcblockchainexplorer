@@ -1,1 +1,8 @@
-blockheight
+<table>
+    {% for key_name in block.keys() %}
+        <tr>
+            <th>{{ key_name }}</th>
+            <td>{{ block[key_name] }}</td>
+        </tr>
+    {% endfor %}
+</table>
