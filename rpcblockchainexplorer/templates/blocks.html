@@ -1,0 +1,12 @@
+<table>
+    <tr>
+        <td>blockheight</td>
+        <td>blockhash</td>
+    </tr>
+    {% for block in blocks %}
+    <tr>
+        <td>{{ block["height"] }}</td>
+        <td>{{ block["hash"] }}</td>
+    </tr>
+    {% endfor %}
+</table>

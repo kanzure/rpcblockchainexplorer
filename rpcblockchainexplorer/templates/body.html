@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% if title %}{{ title }}{% else %}rpcblockchainexplorer{% endif %}</title>
+    </head>
+    <body>
+        {% include "header.html" %}
+
+        <div class="content">
+        {% block content %}{% endblock %}
+        </div>
+
+        {% include "footer.html" %}
+    </body>
+</html>
