@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+
+{% block content %}
 <table>
     {% for key_name in block.keys() %}
         <tr>
@@ -8,3 +11,4 @@
 </table>
 
 block transactions go here
+{% endblock %}
