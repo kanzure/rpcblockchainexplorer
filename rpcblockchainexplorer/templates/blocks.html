@@ -9,7 +9,7 @@
     {% for block in blocks %}
     <tr>
         <td>{{ block["height"] }}</td>
-        <td>{{ block["hash"] }}</td>
+        <td><a href="/block/{{ block["hash"] }}">{{ block["hash"] }}</a></td>
     </tr>
     {% endfor %}
 </table>
