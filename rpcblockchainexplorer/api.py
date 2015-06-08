@@ -28,6 +28,9 @@ from bitcoin.core import (
 
     # bytes to hex
     b2x,
+
+    # hex to bytes
+    x,
 )
 
 # because of the interwebs...
@@ -186,11 +189,11 @@ def index():
 
     blockcount = g.bitcoin_rpc_client.getblockcount()
 
-    for block_index in range(0, blockcount):
+    for block_index in range(0, blockcount + 1):
         blockhash = g.bitcoin_rpc_client.getblockhash(block_index)
         blocks.append({
             "height": block_index,
-            "hash": blockhash,
+            "hash": b2lx(blockhash),
         })
 
     return render_template("blocks.html", blocks=blocks)
@@ -209,7 +212,7 @@ def _getblock(blockhash):
 
 @api.route("/transaction/<txid>")
 def _transaction(txid):
-    transaction = g.bitcoin_rpc_client._call("getrawtransaction", b2x(x(txid)), 1)
+    transaction = g.bitcoin_rpc_client._call("getrawtransaction", txid, 1)
     blockhash = transaction["blockhash"]
     del transaction["blockhash"]
     return render_template("transaction.html", transaction=transaction, blockhash=blockhash)
