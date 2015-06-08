@@ -243,7 +243,6 @@ def _getbestblockhash():
     bestblockhash = g.bitcoin_rpc_client.getbestblockhash()
     return str(bestblockhash)
 
-# TODO: getrawtransaction
 # TODO: decoderawtransaction
 # TODO: getblockchaininfo
 # TODO: getchaintips
