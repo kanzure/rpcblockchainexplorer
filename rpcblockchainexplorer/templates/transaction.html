@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<table>
+    {% for key_name in transaction.keys() %}
+        <tr>
+            <th>{{ key_name }}</th>
+            <td>{{ transaction[key_name] }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
