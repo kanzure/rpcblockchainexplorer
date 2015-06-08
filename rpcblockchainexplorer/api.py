@@ -208,7 +208,13 @@ def _getblock(blockhash):
     # don't display txids in the block output
     del block["tx"]
 
-    return render_template("block.html", block=block, txids=txids)
+    if "nextblockhash" in block.keys():
+        nextblockhash = block["nextblockhash"]
+        del block["nextblockhash"]
+    else:
+        nextblockhash = None
+
+    return render_template("block.html", block=block, txids=txids, nextblockhash=nextblockhash)
 
 @api.route("/transaction/<txid>")
 def _transaction(txid):

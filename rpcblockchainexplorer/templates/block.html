@@ -8,6 +8,12 @@
             <td>{{ block[key_name] }}</td>
         </tr>
     {% endfor %}
+    {% if nextblockhash != None %}
+        <tr>
+            <th>nextblockhash</th>
+            <td><a href="/block/{{ nextblockhash }}">{{ nextblockhash }}</a></td>
+        </tr>
+    {% endif %}
 </table>
 
 <h3>Transactions</h3>
