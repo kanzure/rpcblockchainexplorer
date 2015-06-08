@@ -35,6 +35,7 @@ from flask import (
     Blueprint,
     request,
     g,
+    render_template,
 )
 
 api = Blueprint("api", __name__, url_prefix="")
@@ -175,3 +176,21 @@ def create_api_endpoints(commands=ALLOWED_COMMANDS):
 # the endpoints to the blueprint, which can then be attached to flask
 # application instances.
 create_api_endpoints()
+
+# TODO: convert from the above format to the following format for each
+# API command. Unfortunately it seems that there must be a custom template to
+# display the relevant content.
+@api.route("/")
+def index():
+    blocks = []
+
+    blockcount = g.bitcoin_rpc_client.getblockcount()
+
+    for block_index in range(0, blockcount):
+        blockhash = g.bitcoin_rpc_client.getblockhash(block_index)
+        blocks.append({
+            "height": block_index,
+            "hash": blockhash,
+        })
+
+    return render_template("blocks.html", blocks=blocks)
