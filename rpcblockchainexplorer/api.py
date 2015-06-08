@@ -198,7 +198,14 @@ def index():
 @api.route("/block/<blockhash>")
 def _getblock(blockhash):
     block = g.bitcoin_rpc_client._call("getblock", blockhash)
-    return render_template("block.html", block=block)
+
+    # store txids to be listed separately
+    txids = block["tx"]
+
+    # don't display txids in the block output
+    del block["tx"]
+
+    return render_template("block.html", block=block, txids=txids)
 
 @api.route("/getblockcount")
 def _getblockcount():

@@ -10,5 +10,12 @@
     {% endfor %}
 </table>
 
-block transactions go here
+<h3>Transactions</h3>
+
+<ul>
+    {% for txid in txids %}
+    <li><a href="/getrawtransaction/{{ txid }}">{{ txid }}</a></li>
+    {% endfor %}
+</ul>
+
 {% endblock %}
