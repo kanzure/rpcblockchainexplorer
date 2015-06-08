@@ -1,13 +1,14 @@
 # coding: utf-8
 
 import os
+import re
 
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
-base_path = os.path.dirname(__FILE__)
+base_path = os.path.dirname(__file__)
 requirements_path = os.path.join(base_path, "requirements.txt")
 long_description_path = os.path.join(base_path, "README.md")
 version_path = os.path.join(base_path, "rpcblockchainexplorer/__init__.py")
@@ -22,7 +23,7 @@ def __filter_requirements(requirements):
     """
     Remove lines that are not related to requirements.
     """
-    return [line for line in requirements if line[0] != "#"]
+    return [line for line in requirements if len(line) > 0 and line[0] != "#"]
 
 def __get_version(version_content):
     """
