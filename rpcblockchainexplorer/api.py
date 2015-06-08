@@ -194,3 +194,34 @@ def index():
         })
 
     return render_template("blocks.html", blocks=blocks)
+
+@api.route("/block/<blockhash>")
+def _getblock(blockhash):
+    block = g.bitcoin_rpc_client._call("getblock", blockhash)
+    return render_template("block.html", block=block)
+
+@api.route("/getblockcount")
+def _getblockcount():
+    blockcount = g.bitcoin_rpc_client.getblockcount()
+    return str(blockcount)
+
+@api.route("/getblockhash/<blockheight>")
+def _getblockhash(blockheight):
+    blockhash = g.bitcoin_rpc_client.getblockhash(b2lx(lx(blockheight)))
+    return str(blockhash)
+
+@api.route("/getdifficulty")
+def _getdifficulty():
+    difficulty = g.bitcoin_rpc_client.getdifficulty()
+    return str(difficulty)
+
+@api.route("/getbestblockhash")
+def _getbestblockhash():
+    bestblockhash = g.bitcoin_rpc_client.getbestblockhash()
+    return str(bestblockhash)
+
+# TODO: getrawtransaction
+# TODO: decoderawtransaction
+# TODO: getblockchaininfo
+# TODO: getchaintips
+# TODO: getmempoolinfo
