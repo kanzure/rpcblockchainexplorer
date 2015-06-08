@@ -2,6 +2,10 @@
 
 {% block content %}
 <table>
+    <tr>
+        <th>block</th>
+        <td><a href="/block/{{ blockhash }}">{{ blockhash }}</a></td>
+    </tr>
     {% for key_name in transaction.keys() %}
         <tr>
             <th>{{ key_name }}</th>

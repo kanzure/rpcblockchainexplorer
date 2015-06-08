@@ -207,6 +207,13 @@ def _getblock(blockhash):
 
     return render_template("block.html", block=block, txids=txids)
 
+@api.route("/transaction/<txid>")
+def _transaction(txid):
+    transaction = g.bitcoin_rpc_client._call("getrawtransaction", b2x(x(txid)), 1)
+    blockhash = transaction["blockhash"]
+    del transaction["blockhash"]
+    return render_template("transaction.html", transaction=transaction, blockhash=blockhash)
+
 @api.route("/getblockcount")
 def _getblockcount():
     blockcount = g.bitcoin_rpc_client.getblockcount()
