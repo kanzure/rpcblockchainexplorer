@@ -18,11 +18,13 @@
     <tr>
         <td>blockheight</td>
         <td>blockhash</td>
+        <td>transactions</td>
     </tr>
     {% for block in blocks %}
     <tr>
         <td>{{ block["height"] }}</td>
         <td><a href="/block/{{ block["hash"] }}">{{ block["hash"] }}</a></td>
+        <td>{{ block["transaction_count"] }}</td>
     </tr>
     {% endfor %}
 </table>
