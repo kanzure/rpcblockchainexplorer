@@ -214,7 +214,13 @@ def _getblock(blockhash):
     else:
         nextblockhash = None
 
-    return render_template("block.html", block=block, txids=txids, nextblockhash=nextblockhash)
+    if "previousblockhash" in block.keys():
+        previousblockhash = block["previousblockhash"]
+        del block["previousblockhash"]
+    else:
+        previousblockhash = None
+
+    return render_template("block.html", block=block, txids=txids, nextblockhash=nextblockhash, previousblockhash=previousblockhash)
 
 @api.route("/transaction/<txid>")
 def _transaction(txid):
