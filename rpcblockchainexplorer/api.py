@@ -191,9 +191,15 @@ def index():
 
     for block_index in range(0, blockcount + 1):
         blockhash = g.bitcoin_rpc_client.getblockhash(block_index)
+        blockheight = block_index
+        realblockhash = b2lx(blockhash)
+
+        block_data = g.bitcoin_rpc_client._call("getblock", realblockhash)
+
         blocks.append({
-            "height": block_index,
-            "hash": b2lx(blockhash),
+            "height": blockheight,
+            "hash": realblockhash,
+            "transaction_count": len(block_data["tx"]),
         })
 
     return render_template("blocks.html", blocks=blocks)
