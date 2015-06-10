@@ -8,6 +8,12 @@
             <td>{{ block[key_name] }}</td>
         </tr>
     {% endfor %}
+    {% if previousblockhash != None %}
+        <tr>
+            <th>previousblockhash</th>
+            <td><a href="/block/{{ previousblockhash }}">{{ previousblockhash }}</a></td>
+        </tr>
+    {% endif %}
     {% if nextblockhash != None %}
         <tr>
             <th>nextblockhash</th>
