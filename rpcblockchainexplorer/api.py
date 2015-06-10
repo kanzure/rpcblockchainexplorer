@@ -185,18 +185,42 @@ create_api_endpoints()
 # display the relevant content.
 @api.route("/")
 def index():
+
+    per_page = 100
+    page_number = 0
+
+    current_page_start = int(request.args.get("start", 0))
+
+    if current_page_start is None:
+        current_page_start = per_page * page_number
+
+    next_page_start = current_page_start + per_page
+    previous_page_start = current_page_start - per_page
+
+    if previous_page_start < 0:
+        previous_page_start = 0
+
     blocks = []
 
     blockcount = g.bitcoin_rpc_client.getblockcount()
 
-    for block_index in range(0, blockcount + 1):
+    if current_page_start > blockcount:
+        current_page_start = blockcount - per_page
+
+    if next_page_start > blockcount:
+        next_page_start = blockcount
+
+    for block_index in range(current_page_start, next_page_start):
         blockhash = g.bitcoin_rpc_client.getblockhash(block_index)
         blocks.append({
             "height": block_index,
             "hash": b2lx(blockhash),
         })
 
-    return render_template("blocks.html", blocks=blocks)
+    if next_page_start == blockcount:
+        next_page_start = None
+
+    return render_template("blocks.html", blocks=blocks, next_page_start=next_page_start, previous_page_start=previous_page_start)
 
 @api.route("/block/<blockhash>")
 def _getblock(blockhash):

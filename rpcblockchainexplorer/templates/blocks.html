@@ -1,6 +1,19 @@
 {% extends "layout.html" %}
 
 {% block content %}
+
+<nav>
+<ul class="pagination">
+{% if previous_page_start > 0 %}
+<li><a href="/?start={{ previous_page_start }}">previous page</a></li>
+{% endif %}
+
+{% if next_page_start %}
+<li><a href="/?start={{ next_page_start }}">next page</a></li>
+{% endif %}
+</ul>
+</nav>
+
 <table class="table table-striped">
     <tr>
         <td>blockheight</td>
